@@ -163,6 +163,10 @@ h2{font-size:clamp(26px,3.6vw,33px);font-weight:700;letter-spacing:-.02em;margin
 .ses .t{font-size:17px;font-weight:700}
 .ses .p{font-size:15px;color:var(--muted);display:flex;align-items:center;gap:4px}
 .ses .p .ms{font-size:17px;color:var(--c-dk)}
+.ses .p{align-items:flex-start;line-height:1.45}
+.ses .p .ms{margin-top:2px}
+.ses .p b{color:var(--ink);font-weight:700}
+.ses .p small{display:block;font-size:13.5px;color:var(--muted)}
 .ses.past{opacity:.55}
 .ses.past .t::after{content:"종료";font-size:12px;font-weight:700;color:var(--muted);
   background:#ECEDEF;border-radius:999px;padding:2px 8px;margin-left:8px;vertical-align:2px}
@@ -255,7 +259,7 @@ footer strong{color:#fff;font-weight:600;display:block;margin-bottom:6px;font-si
 <section id="apply">
   <div class="wrap">
     <h2>참가 신청</h2>
-    <p class="sdesc">학부모님께서 직접 신청해 주세요. <strong>학교급(초·중·고) 가운데 한 회차만</strong> 고르시면 됩니다.</p>
+    <p class="sdesc">학부모님께서 직접 신청해 주세요. 자녀의 학교급에 맞춰 <strong>한 회차</strong>를 고르시면 됩니다.</p>
 
     <div class="applycard">
       <div class="a-top">
@@ -280,7 +284,7 @@ footer strong{color:#fff;font-weight:600;display:block;margin-bottom:6px;font-si
 
     <div class="notes">
       <div class="note hi">
-        <h3><span class="ms">looks_one</span>한 번만 신청해 주세요</h3>
+        <h3><span class="ms">looks_one</span>두 회차는 같은 내용입니다</h3>
         <p>학교급별로 2회차씩 운영하며, <b>두 회차는 같은 내용</b>입니다. 편하신 시간 한 회차만 신청해 주세요.</p>
       </div>
       <div class="note">
@@ -334,10 +338,10 @@ footer strong{color:#fff;font-weight:600;display:block;margin-bottom:6px;font-si
    · SESSIONS — 학교급별 회차. 지난 회차는 저절로 '종료'로 바뀝니다.
    ══════════════════════════════════════════════════════════ */
 const APPLY = {
-  url:   "https://forms.gle/kicTDYHYWVUWcE3q6",
+  url:   "https://script.google.com/macros/s/AKfycbyi_fpFLKyjyNMa-EhSP2rFJOSnE0_VovORNuXuRPCV9ofEbSBH2t_WIAQNpnPyDfQ9/exec",   // 신청 페이지 (Apps Script)
   open:  "2026-10-01T10:00:00+09:00",
   close: "2026-10-06T17:00:00+09:00",
-  seats: 200,                      // 화면 표시용 인원. 넘어도 신청은 계속 받습니다
+  seats: 200,                      // 화면 표시용 회차별 인원. 넘어도 신청은 계속 받습니다
   confirm: "10. 8.(목)"            // 확정 명단 문자 안내일
 };
 
@@ -356,13 +360,15 @@ const LEVELS = [
     topic:"고교학점제와 학생 맞춤형 교육과정, 과목 선택·이수 및 진로·학업 설계, 대입 변화와 준비" }
 ];
 
+const TITLE = "경기도교육청 진로진학_리더교사";   // 띄어쓰기 자리에서 줄을 바꿉니다 (_ 는 한 줄로 붙이는 띄어쓰기)   // 강사 명칭 (소속교 대신)
+
 const SESSIONS = [
-  { lv:"초", date:"2026-10-12", time:"15:00~17:00", who:"송내고 한충렬 교사" },
-  { lv:"초", date:"2026-10-12", time:"18:00~20:00", who:"수주고 신정원 교사" },
-  { lv:"중", date:"2026-10-13", time:"15:00~17:00", who:"송내고 한충렬 교사" },
-  { lv:"중", date:"2026-10-20", time:"18:00~20:00", who:"수주고 신정원 교사" },
-  { lv:"고", date:"2026-10-15", time:"15:00~17:00", who:"소명여고 오수석 교사" },
-  { lv:"고", date:"2026-10-15", time:"18:00~20:00", who:"소명여고 오수석 교사" }
+  { lv:"초", date:"2026-10-12", time:"15:00~17:00", who:"한충렬" },
+  { lv:"초", date:"2026-10-12", time:"18:00~20:00", who:"신정원" },
+  { lv:"중", date:"2026-10-13", time:"15:00~17:00", who:"한충렬" },
+  { lv:"중", date:"2026-10-20", time:"18:00~20:00", who:"신정원" },
+  { lv:"고", date:"2026-10-15", time:"15:00~17:00", who:"오수석" },
+  { lv:"고", date:"2026-10-15", time:"18:00~20:00", who:"오수석" }
 ];
 </script>
 
@@ -402,7 +408,7 @@ if (document.fonts && document.fonts.load) {
   var 모두끝 = now > t(마지막 + "T20:00:00+09:00");
 
   $("fPeriod").innerHTML = esc(날시(APPLY.open)) + " ~<br>" + esc(날시(APPLY.close));
-  $("fSeats").innerHTML = APPLY.seats + "명<small>선착순</small>";
+  $("fSeats").innerHTML = "회차별 " + APPLY.seats + "명<small>선착순</small>";
   $("nConfirm").textContent = APPLY.confirm;
 
   var st = $("aState"), btn = $("aBtn"), wh = $("aWhen");
@@ -410,12 +416,12 @@ if (document.fonts && document.fonts.load) {
     st.className = "state open"; st.textContent = "신청 받는 중";
     btn.className = "btn yel"; btn.href = APPLY.url; btn.target = "_blank"; btn.rel = "noopener";
     btn.innerHTML = '신청하기<span class="ms">arrow_forward</span>';
-    wh.textContent = 날시(APPLY.close) + " 마감 · " + APPLY.seats + "명 선착순";
+    wh.textContent = 날시(APPLY.close) + " 마감 · 회차별 " + APPLY.seats + "명 선착순";
   } else if (신청 === "대기") {
     st.className = "state soon"; st.textContent = "신청 전";
     btn.className = "btn yel mute"; btn.textContent = 날시(APPLY.open) + " 열림";
     btn.removeAttribute("href");
-    wh.textContent = APPLY.seats + "명 선착순 · 시간이 되면 이 버튼이 열립니다";
+    wh.textContent = "회차별 " + APPLY.seats + "명 선착순 · 시간이 되면 버튼이 열립니다";
   } else if (신청 === "준비") {
     btn.removeAttribute("href"); wh.textContent = "신청 링크를 준비하고 있습니다";
   } else {
@@ -473,7 +479,8 @@ if (document.fonts && document.fonts.load) {
         + '<div class="no">' + (i + 1) + '회차</div>'
         + '<div class="d">' + k.m + '. ' + k.d + '.<small>' + k.w + '요일</small></div>'
         + '<div><div class="t">' + esc(s.time) + '</div>'
-        + '<div class="p"><span class="ms">person</span>' + esc(s.who) + '</div></div></div>';
+        + '<div class="p"><span class="ms">person</span><span><b>' + esc(s.who) + '</b> 강사'
+        + '<small>' + esc(TITLE).replace(" ", "<br>").replace(/_/g, " ") + '</small></span></div></div></div>';
     });
     return h + '</div></div>';
   }).join("");
