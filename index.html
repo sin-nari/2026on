@@ -286,6 +286,7 @@ footer strong{color:#fff;font-weight:600;display:block;margin-bottom:6px;font-si
       <div class="note hi">
         <h3><span class="ms">looks_one</span>두 회차는 같은 내용입니다</h3>
         <p>학교급별로 2회차씩 운영하며, <b>두 회차는 같은 내용</b>입니다. 편하신 시간 한 회차만 신청해 주세요.</p>
+        <p>※ 원활한 온라인 운영을 위해 회차별 선착순 <span class="seatN">250</span>명으로 신청을 받으며, 인원이 차면 조기 마감될 수 있음을 양해하여 주시기 바랍니다.</p>
       </div>
       <div class="note">
         <h3><span class="ms">sms</span>신청 뒤에는 문자로 안내합니다</h3>
@@ -333,7 +334,7 @@ footer strong{color:#fff;font-weight:600;display:block;margin-bottom:6px;font-si
 /* ══════════════════════════════════════════════════════════
    여기만 고치면 됩니다 (시각은 모두 한국 시간)
    · APPLY  — 신청 링크와 기간. 기간에 맞춰 버튼이 저절로 열리고 닫힙니다.
-              인원이 200명을 넘어도 마감하지 않고 기간 끝(close)까지 받습니다
+              seats 는 화면 표시용 인원. 실제 정원 마감은 신청 페이지(Code.gs 의 CAP)에서 합니다
    · SURVEY — 만족도 조사 링크와 여는 기간. url 을 "" 로 두면 '준비 중'.
    · SESSIONS — 학교급별 회차. 지난 회차는 저절로 '종료'로 바뀝니다.
    ══════════════════════════════════════════════════════════ */
@@ -341,7 +342,7 @@ const APPLY = {
   url:   "https://script.google.com/macros/s/AKfycbyi_fpFLKyjyNMa-EhSP2rFJOSnE0_VovORNuXuRPCV9ofEbSBH2t_WIAQNpnPyDfQ9/exec",   // 신청 페이지 (Apps Script)
   open:  "2026-10-01T10:00:00+09:00",
   close: "2026-10-06T17:00:00+09:00",
-  seats: 200,                      // 화면 표시용 회차별 인원. 넘어도 신청은 계속 받습니다
+  seats: 250,                      // 화면 표시용 회차별 인원. 넘어도 신청은 계속 받습니다
   confirm: "10. 8.(목)"            // 확정 명단 문자 안내일
 };
 
@@ -408,20 +409,21 @@ if (document.fonts && document.fonts.load) {
   var 모두끝 = now > t(마지막 + "T20:00:00+09:00");
 
   $("fPeriod").innerHTML = esc(날시(APPLY.open)) + " ~<br>" + esc(날시(APPLY.close));
-  $("fSeats").innerHTML = "회차별 " + APPLY.seats + "명<small>선착순</small>";
+  $("fSeats").innerHTML = "회차별 " + APPLY.seats + "명<small>선착순, 인원이 차면 조기 마감</small>";
   $("nConfirm").textContent = APPLY.confirm;
+  document.querySelectorAll(".seatN").forEach(function(e){ e.textContent = APPLY.seats; });
 
   var st = $("aState"), btn = $("aBtn"), wh = $("aWhen");
   if (신청 === "접수중") {
     st.className = "state open"; st.textContent = "신청 받는 중";
     btn.className = "btn yel"; btn.href = APPLY.url; btn.target = "_blank"; btn.rel = "noopener";
     btn.innerHTML = '신청하기<span class="ms">arrow_forward</span>';
-    wh.textContent = 날시(APPLY.close) + " 마감 · 회차별 " + APPLY.seats + "명 선착순";
+    wh.textContent = 날시(APPLY.close) + " 마감 · 회차별 선착순 " + APPLY.seats + "명";
   } else if (신청 === "대기") {
     st.className = "state soon"; st.textContent = "신청 전";
     btn.className = "btn yel mute"; btn.textContent = 날시(APPLY.open) + " 열림";
     btn.removeAttribute("href");
-    wh.textContent = "회차별 " + APPLY.seats + "명 선착순 · 시간이 되면 버튼이 열립니다";
+    wh.textContent = "회차별 선착순 " + APPLY.seats + "명 · 시간이 되면 버튼이 열립니다";
   } else if (신청 === "준비") {
     btn.removeAttribute("href"); wh.textContent = "신청 링크를 준비하고 있습니다";
   } else {
