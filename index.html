@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2026 부천 고교학점제 학부모 미래공감 ON 설명회</title>
-<meta name="description" content="2026 부천 고교학점제 학부모 미래공감 ON 설명회 — 학교급별 실시간 온라인 설명회 일정 · 참가 신청 · 만족도 조사">
+<title>2026 부천형 고교학점제 학부모 미래공감 ON 설명회</title>
+<meta name="description" content="2026 부천형 고교학점제 학부모 미래공감 ON 설명회 — 학교급별 실시간 온라인 설명회 일정 · 참가 신청 · 만족도 조사">
 <meta name="theme-color" content="#1B2438">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -93,6 +93,16 @@ h1 .on{display:inline-block;font-family:"Pretendard Variable",Pretendard,sans-se
   .road .m{min-width:58px;flex:none}
   .road .n{margin-top:0}
 }
+
+
+/* 선착순 안내 강조 띠 */
+.capnote{display:flex;gap:14px;align-items:flex-start;margin:0 0 18px;padding:18px 22px;
+  background:#FFF4D1;border:2px solid #E0A100;border-radius:14px;box-shadow:0 4px 14px -8px rgba(160,110,0,.45)}
+.capnote .ic{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;
+  background:#C2410C;color:#fff;font-size:24px;font-weight:900;line-height:1}
+.capnote p{font-size:18px;line-height:1.6;color:#3B2A00;font-weight:600;margin:0}
+.capnote b{color:#B42318;font-weight:900;background:linear-gradient(transparent 58%,#FFD95A 58%)}
+@media(max-width:760px){.capnote{padding:15px 16px;gap:11px}.capnote p{font-size:16.5px}.capnote .ic{width:34px;height:34px;font-size:20px}}
 
 /* ---------- buttons ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:10px;
@@ -218,7 +228,7 @@ footer strong{color:#fff;font-weight:600;display:block;margin-bottom:6px;font-si
 <body>
 
 <nav><div class="wrap nav-in">
-  <div class="brand">부천 고교학점제 <b>학부모 미래공감 ON</b></div>
+  <div class="brand">부천형 고교학점제 <b>학부모 미래공감 ON</b></div>
   <div class="nav-links">
     <a href="#apply">참가 신청</a>
     <a href="#schedule">학교급별 일정</a>
@@ -229,7 +239,7 @@ footer strong{color:#fff;font-weight:600;display:block;margin-bottom:6px;font-si
 <header>
   <div class="wrap hero">
     <div>
-      <div class="eyebrow">2026 부천 고교학점제</div>
+      <div class="eyebrow">2026 부천형 고교학점제</div>
       <h1 class="serif">학부모 <span class="y">미래공감</span> <span class="on">ON</span><br>설명회</h1>
       <p class="tagline">학교급별로 만나고, 교육의 미래를 함께 그리다</p>
       <div class="meta-row">
@@ -251,7 +261,7 @@ footer strong{color:#fff;font-weight:600;display:block;margin-bottom:6px;font-si
       <li><div class="m">4~7월</div><div class="n">중학교로 찾아가는 설명회 및 1:1 맞춤형 컨설팅</div></li>
       <li><div class="m">7월</div><div class="n">부천형 고교학점제 학부모 미래공감 설명회</div></li>
       <li><div class="m">6~12월</div><div class="n">부천시민과 함께하는 진로진학 설명회</div></li>
-      <li class="now"><div class="m">10월</div><div class="n">학교급별 학부모 미래공감 ON 설명회</div></li>
+      <li class="now"><div class="m">10월</div><div class="n">학교급별 부천형 고교학점제 학부모 미래공감 ON 설명회</div></li>
     </ol>
   </div>
 </div>
@@ -261,6 +271,10 @@ footer strong{color:#fff;font-weight:600;display:block;margin-bottom:6px;font-si
     <h2>참가 신청</h2>
     <p class="sdesc">학부모님께서 직접 신청해 주세요. 자녀의 학교급에 맞춰 <strong>한 회차</strong>를 고르시면 됩니다.</p>
 
+    <div class="capnote" role="note">
+      <span class="ic" aria-hidden="true">!</span>
+      <p>※ 원활한 온라인 운영을 위해 <b>회차별 선착순 <span class="seatN">250</span>명</b>으로 신청을 받으며, <b>인원이 차면 조기 마감</b>될 수 있음을 양해하여 주시기 바랍니다.</p>
+    </div>
     <div class="applycard">
       <div class="a-top">
         <div>
@@ -286,7 +300,6 @@ footer strong{color:#fff;font-weight:600;display:block;margin-bottom:6px;font-si
       <div class="note hi">
         <h3><span class="ms">looks_one</span>두 회차는 같은 내용입니다</h3>
         <p>학교급별로 2회차씩 운영하며, <b>두 회차는 같은 내용</b>입니다. 편하신 시간 한 회차만 신청해 주세요.</p>
-        <p>※ 원활한 온라인 운영을 위해 회차별 선착순 <span class="seatN">250</span>명으로 신청을 받으며, 인원이 차면 조기 마감될 수 있음을 양해하여 주시기 바랍니다.</p>
       </div>
       <div class="note">
         <h3><span class="ms">sms</span>신청 뒤에는 문자로 안내합니다</h3>
@@ -325,7 +338,7 @@ footer strong{color:#fff;font-weight:600;display:block;margin-bottom:6px;font-si
 
 <footer><div class="wrap">
   <strong>경기도부천교육지원청 중등교육지원과</strong>
-  2026 부천 고교학점제 학부모 미래공감 ON 설명회<br>
+  2026 부천형 고교학점제 학부모 미래공감 ON 설명회<br>
   학교급별로 만나고, 교육의 미래를 함께 그리다
   <div class="fnote">운영 일정은 여건에 따라 바뀔 수 있습니다. © 2026 경기도부천교육지원청.</div>
 </div></footer>
@@ -339,7 +352,7 @@ footer strong{color:#fff;font-weight:600;display:block;margin-bottom:6px;font-si
    · SESSIONS — 학교급별 회차. 지난 회차는 저절로 '종료'로 바뀝니다.
    ══════════════════════════════════════════════════════════ */
 const APPLY = {
-  url:   "https://script.google.com/macros/s/AKfycbyi_fpFLKyjyNMa-EhSP2rFJOSnE0_VovORNuXuRPCV9ofEbSBH2t_WIAQNpnPyDfQ9/exec",   // 신청 페이지 (Apps Script)
+  url:   "https://script.google.com/a/macros/cloud.goe.go.kr/s/AKfycbyi_fpFLKyjyNMa-EhSP2rFJOSnE0_VovORNuXuRPCV9ofEbSBH2t_WIAQNpnPyDfQ9/exec",   // 신청 페이지 (Apps Script)
   open:  "2026-10-01T10:00:00+09:00",
   close: "2026-10-06T17:00:00+09:00",
   seats: 250,                      // 화면 표시용 회차별 인원. 넘어도 신청은 계속 받습니다
@@ -420,10 +433,10 @@ if (document.fonts && document.fonts.load) {
     btn.innerHTML = '신청하기<span class="ms">arrow_forward</span>';
     wh.textContent = 날시(APPLY.close) + " 마감 · 회차별 선착순 " + APPLY.seats + "명";
   } else if (신청 === "대기") {
-    st.className = "state soon"; st.textContent = "신청 전";
-    btn.className = "btn yel mute"; btn.textContent = 날시(APPLY.open) + " 열림";
-    btn.removeAttribute("href");
-    wh.textContent = "회차별 선착순 " + APPLY.seats + "명 · 시간이 되면 버튼이 열립니다";
+    st.className = "state soon"; st.textContent = 날시(APPLY.open) + "부터 신청";
+    btn.className = "btn yel"; btn.href = APPLY.url; btn.target = "_blank"; btn.rel = "noopener";
+    btn.innerHTML = '신청 페이지 미리 보기<span class="ms">arrow_forward</span>';
+    wh.textContent = "회차별 선착순 " + APPLY.seats + "명 · 신청 버튼은 " + 날시(APPLY.open) + "에 열립니다";
   } else if (신청 === "준비") {
     btn.removeAttribute("href"); wh.textContent = "신청 링크를 준비하고 있습니다";
   } else {
@@ -456,7 +469,7 @@ if (document.fonts && document.fonts.load) {
 
   /* ── 히어로 버튼 ── */
   var cta = "";
-  if (신청 === "접수중")
+  if (신청 === "접수중" || 신청 === "대기")
     cta += '<a class="btn yel" href="#apply">참가 신청<span class="ms">arrow_downward</span></a>';
   if (조사 === "열림")
     cta += '<a class="btn ' + (신청 === "접수중" ? "ghost" : "yel") + '" href="#survey">만족도 조사<span class="ms">rate_review</span></a>';
