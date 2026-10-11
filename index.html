@@ -193,6 +193,39 @@ h2{font-size:clamp(26px,3.6vw,33px);font-weight:700;letter-spacing:-.02em;margin
 .zoomnote b{color:var(--teal-dk)}
 @media(max-width:860px){.levels{grid-template-columns:1fr}.lv-topic{min-height:0}}
 
+/* ---------- join (입장 안내) ---------- */
+.joincard{background:var(--navy-2);color:#fff;border-radius:var(--r);padding:30px 32px;
+  display:grid;grid-template-columns:1fr auto;gap:26px;align-items:center}
+.j-kicker{font-size:15px;color:var(--teal);font-weight:600}
+.j-rows{display:flex;flex-wrap:wrap;gap:12px 34px;margin-top:12px}
+.j-row dt{font-size:14px;color:rgba(255,255,255,.6);font-weight:600;letter-spacing:.04em}
+.j-row dd{display:flex;align-items:center;gap:10px;margin-top:2px}
+.j-val{font-family:"Pretendard Variable",Pretendard,sans-serif;font-size:clamp(28px,4.4vw,38px);font-weight:800;
+  letter-spacing:.02em;color:var(--yel);font-variant-numeric:tabular-nums;line-height:1.2}
+.copy{font:inherit;font-size:13.5px;font-weight:700;color:#fff;background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.3);border-radius:7px;padding:5px 10px;cursor:pointer}
+.copy:hover{background:rgba(255,255,255,.2)}
+.copy.done{background:var(--teal);color:var(--navy);border-color:var(--teal)}
+.j-cta{display:flex;flex-direction:column;gap:8px;min-width:240px}
+.j-cta small{font-size:14px;color:rgba(255,255,255,.65);text-align:center}
+.nextup{margin-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--teal-lt);
+  border:1px solid #BFE3E4;border-radius:12px;padding:14px 18px;font-size:16.5px;color:#2D5B5D}
+.nextup b{color:var(--teal-dk);font-weight:800}
+.nextup .tag{font-size:13px;font-weight:800;color:#fff;background:var(--teal-dk);border-radius:999px;padding:3px 10px}
+.steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px;counter-reset:st}
+.steps li{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 20px 22px;counter-increment:st}
+.steps li::before{content:counter(st);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;
+  background:var(--navy);color:#fff;font-weight:800;font-size:15px;margin-bottom:10px}
+.steps li.last::before{background:var(--yel);color:#2A2008}
+.steps h3{font-size:17.5px;font-weight:700;line-height:1.45}
+.steps p{font-size:15.5px;color:var(--muted);margin-top:6px;line-height:1.65}
+.steps p b{color:var(--ink)}
+.steps a{color:var(--blue-dk);font-weight:700}
+.steps .ex{display:inline-block;margin-top:6px;font-size:15px;font-weight:700;color:var(--ink);
+  background:var(--yel-lt);border:1px solid #EBD9A4;border-radius:6px;padding:2px 8px}
+@media(max-width:860px){.joincard{grid-template-columns:1fr;padding:24px 22px}.j-cta{min-width:0}.steps{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.steps{grid-template-columns:1fr}}
+
 /* ---------- survey ---------- */
 .survey{display:flex;align-items:center;gap:22px;flex-wrap:wrap;background:#fff;
   border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:var(--r);padding:26px 28px}
@@ -230,9 +263,10 @@ footer strong{color:#fff;font-weight:600;display:block;margin-bottom:6px;font-si
 <nav><div class="wrap nav-in">
   <div class="brand">부천형 고교학점제 <b>학부모 미래공감 ON</b></div>
   <div class="nav-links">
-    <a href="#apply">참가 신청</a>
-    <a href="#schedule">학교급별 일정</a>
+    <a href="#join">입장 안내</a>
     <a href="#survey">만족도 조사</a>
+    <a href="#schedule">학교급별 일정</a>
+    <a href="#apply">참가 신청</a>
   </div>
 </div></nav>
 
@@ -266,7 +300,60 @@ footer strong{color:#fff;font-weight:600;display:block;margin-bottom:6px;font-si
   </div>
 </div>
 
-<section id="apply">
+<section id="join">
+  <div class="wrap">
+    <h2>입장 안내</h2>
+    <p class="sdesc">설명회 시간에 맞춰 아래 Zoom 회의실로 들어오세요. <strong>모든 회차가 같은 회의실</strong>을 씁니다.</p>
+    <div class="joincard">
+      <div>
+        <div class="j-kicker">Zoom 회의실 · 모든 회차 공통</div>
+        <dl class="j-rows">
+          <div class="j-row"><dt>회의 ID</dt><dd><span class="j-val" id="zId"></span><button class="copy" type="button" data-copy="id">복사</button></dd></div>
+          <div class="j-row"><dt>암호</dt><dd><span class="j-val" id="zPw"></span><button class="copy" type="button" data-copy="pw">복사</button></dd></div>
+        </dl>
+      </div>
+      <div class="j-cta">
+        <a class="btn yel" id="zBtn" target="_blank" rel="noopener">Zoom으로 입장하기<span class="ms">videocam</span></a>
+        <small>암호를 물으면 <b id="zPw2"></b>를 넣어 주세요</small>
+      </div>
+    </div>
+    <div class="nextup" id="nextUp" hidden></div>
+    <ol class="steps">
+      <li><h3>시작 10분 전부터 들어오세요</h3><p>회차별 시작 시각은 <a href="#schedule">학교급별 일정</a>에서 확인하세요. 처음 쓰시면 Zoom 앱 설치 안내가 나옵니다.</p></li>
+      <li><h3>이름을 바꿔 주세요</h3><p>참석 확인을 위해 <b>「자녀 학교명_학부모 성명」</b>으로 바꿔 주세요.</p><span class="ex">예) 부천중_홍길동</span></li>
+      <li><h3>질문은 채팅창에</h3><p>강의를 들으며 궁금한 점을 채팅창에 남겨 주시면 <b>질의응답 시간</b>에 답해 드립니다.</p></li>
+      <li class="last"><h3>끝난 뒤 만족도 조사</h3><p>설명회가 끝나면 아래 <a href="#survey">만족도 조사</a>에 의견을 남겨 주세요. 약 1분, 무기명입니다.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section id="survey-sec" style="background:#EFEDE7;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <h2>만족도 조사</h2>
+    <p class="sdesc">설명회에 참여하신 뒤 의견을 남겨 주세요. 다음 설명회를 준비하는 데 소중히 쓰겠습니다.</p>
+    <div class="survey" id="survey">
+      <div class="txt">
+        <h3><span class="ms">rate_review</span><span id="sHead">만족도 조사</span></h3>
+        <p id="sText"></p>
+      </div>
+      <a class="btn mute-lt" id="sBtn">준비 중</a>
+    </div>
+  </div>
+</section>
+
+<section id="schedule">
+  <div class="wrap">
+    <h2>학교급별 일정</h2>
+    <p class="sdesc">자녀의 학교급에 맞춰 내용을 준비했습니다. 오후(15:00)와 저녁(18:00) 가운데 편하신 때를 고르세요.</p>
+    <div class="levels" id="levels"></div>
+    <div class="zoomnote">
+      <span class="ms">videocam</span>
+      <p><b>모든 회차가 같은 Zoom 회의실을 씁니다.</b> 회의 ID <b>334 351 7622</b> · 암호 <b>2026</b> — 들어오는 방법은 위 <a href="#join"><b>입장 안내</b></a>를 보세요. 휴대전화나 컴퓨터로 참여하실 수 있습니다.</p>
+    </div>
+  </div>
+</section>
+
+<section id="apply" style="background:#EFEDE7;border-top:1px solid var(--line)">
   <div class="wrap">
     <h2>참가 신청</h2>
     <p class="sdesc">학부모님께서 직접 신청해 주세요. 자녀의 학교급에 맞춰 <strong>한 회차</strong>를 고르시면 됩니다.</p>
@@ -302,36 +389,10 @@ footer strong{color:#fff;font-weight:600;display:block;margin-bottom:6px;font-si
         <p>학교급별로 2회차씩 운영하며, <b>두 회차는 같은 내용</b>입니다. 편하신 시간 한 회차만 신청해 주세요.</p>
       </div>
       <div class="note">
-        <h3><span class="ms">sms</span>신청 뒤에는 문자로 안내합니다</h3>
-        <p>참석 대상자 확정 명단은 <b id="nConfirm"></b> 이후 문자메시지로 알려 드립니다.</p>
-        <p>설명회 접속 주소(Zoom)와 참여 방법도 신청하신 분께 문자로 보내 드립니다.</p>
+        <h3><span class="ms">sms</span>참석 확정 문자를 보내 드렸습니다</h3>
+        <p>신청하신 학부모님께 <b>참석 확정과 Zoom 접속 방법</b>을 문자로 보내 드렸습니다.</p>
+        <p>문자를 찾기 어려우시면 위 <a href="#join"><b>입장 안내</b></a>의 회의 ID와 암호로 들어오시면 됩니다.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<section id="schedule" style="background:#EFEDE7;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
-  <div class="wrap">
-    <h2>학교급별 일정</h2>
-    <p class="sdesc">자녀의 학교급에 맞춰 내용을 준비했습니다. 오후(15:00)와 저녁(18:00) 가운데 편하신 때를 고르세요.</p>
-    <div class="levels" id="levels"></div>
-    <div class="zoomnote">
-      <span class="ms">videocam</span>
-      <p><b>Zoom으로 참여합니다.</b> 접속 주소는 이 사이트에 올리지 않고, 신청하신 분께만 문자로 보내 드립니다. 휴대전화나 컴퓨터로 참여하실 수 있으며, 시작 10분 전쯤 미리 접속해 주시면 좋습니다.</p>
-    </div>
-  </div>
-</section>
-
-<section id="survey-sec">
-  <div class="wrap">
-    <h2>만족도 조사</h2>
-    <p class="sdesc">설명회에 참여하신 뒤 의견을 남겨 주세요. 다음 설명회를 준비하는 데 소중히 쓰겠습니다.</p>
-    <div class="survey" id="survey">
-      <div class="txt">
-        <h3><span class="ms">rate_review</span><span id="sHead">만족도 조사</span></h3>
-        <p id="sText"></p>
-      </div>
-      <a class="btn mute-lt" id="sBtn">준비 중</a>
     </div>
   </div>
 </section>
@@ -348,6 +409,7 @@ footer strong{color:#fff;font-weight:600;display:block;margin-bottom:6px;font-si
    여기만 고치면 됩니다 (시각은 모두 한국 시간)
    · APPLY  — 신청 링크와 기간. 기간에 맞춰 버튼이 저절로 열리고 닫힙니다.
               seats 는 화면 표시용 인원. 실제 정원 마감은 신청 페이지(Code.gs 의 CAP)에서 합니다
+   · ZOOM   — 입장 안내에 보이는 Zoom 회의실 (모든 회차 공통)
    · SURVEY — 만족도 조사 링크와 여는 기간. url 을 "" 로 두면 '준비 중'.
    · SESSIONS — 학교급별 회차. 지난 회차는 저절로 '종료'로 바뀝니다.
    ══════════════════════════════════════════════════════════ */
@@ -359,8 +421,14 @@ const APPLY = {
   confirm: "10. 10.(토)"            // 확정 명단 문자 안내일
 };
 
+const ZOOM = {
+  url: "https://zoom.us/j/3343517622",   // 입장 버튼 링크
+  id:  "334 351 7622",
+  pw:  "2026"
+};
+
 const SURVEY = {
-  url:   "",                          // 만족도 조사 구글 폼 주소
+  url:   "https://forms.gle/Bt2L9nYqaVkZwAtT9",   // 만족도 조사 구글 폼 주소 (모든 회차 공통)
   open:  "2026-10-12T15:00:00+09:00", // 첫 회차 시작부터
   close: "2026-10-23T23:59:59+09:00"  // 마지막 회차(10. 20.) 뒤 3일까지
 };
@@ -423,7 +491,7 @@ if (document.fonts && document.fonts.load) {
 
   $("fPeriod").innerHTML = esc(날시(APPLY.open)) + " ~<br>" + esc(날시(APPLY.close));
   $("fSeats").innerHTML = "회차별 " + APPLY.seats + "명<small>선착순, 인원이 차면 조기 마감</small>";
-  $("nConfirm").textContent = APPLY.confirm;
+  if ($("nConfirm")) $("nConfirm").textContent = APPLY.confirm;
   document.querySelectorAll(".seatN").forEach(function(e){ e.textContent = APPLY.seats; });
 
   var st = $("aState"), btn = $("aBtn"), wh = $("aWhen");
@@ -444,7 +512,7 @@ if (document.fonts && document.fonts.load) {
     btn.className = "btn yel mute"; btn.removeAttribute("href");
     btn.textContent = "신청이 마감되었습니다";
     wh.textContent = 모두끝 ? "참여해 주셔서 감사합니다"
-                   : "참석 확정·접속 주소는 문자로 안내합니다";
+                   : "참석 확정 문자를 보내 드렸습니다";
   }
 
   /* ── 만족도 조사 ── */
@@ -467,12 +535,44 @@ if (document.fonts && document.fonts.load) {
     sb.textContent = 조사 === "예정" ? "설명회 뒤 열림" : "준비 중";
   }
 
+  /* ── 입장 안내 ── */
+  $("zId").textContent = ZOOM.id; $("zPw").textContent = ZOOM.pw; $("zPw2").textContent = ZOOM.pw;
+  $("zBtn").href = ZOOM.url;
+  document.querySelectorAll(".copy").forEach(function(b){
+    b.addEventListener("click", function(){
+      var v = (b.dataset.copy === "id" ? ZOOM.id : ZOOM.pw).replace(/\s/g, "");
+      function ok(){ b.textContent = "복사됨"; b.classList.add("done");
+        setTimeout(function(){ b.textContent = "복사"; b.classList.remove("done"); }, 1600); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(v).then(ok, ok);
+      else { var ta = document.createElement("textarea"); ta.value = v; document.body.appendChild(ta);
+        ta.select(); try { document.execCommand("copy"); } catch(e){} ta.remove(); ok(); }
+    });
+  });
+  /* 지금 진행 중이거나 다음에 열리는 회차 */
+  var 이름 = {"초":"초등학교","중":"중학교","고":"고등학교"};
+  var 순 = SESSIONS.map(function(s){
+      var se = s.time.split("~");
+      return { s:s, st:t(s.date + "T" + se[0] + ":00+09:00"), en:t(s.date + "T" + se[1] + ":00+09:00") }; })
+    .sort(function(a, b){ return a.st - b.st; });
+  var 다음 = 순.filter(function(x){ return now < x.en; })[0];
+  if (다음) {
+    var 진행 = now >= 다음.st - 10 * 60e3;
+    var 회 = SESSIONS.filter(function(s){ return s.lv === 다음.s.lv; })
+      .sort(function(a, b){ return (a.date + a.time) < (b.date + b.time) ? -1 : 1; }).indexOf(다음.s) + 1;
+    $("nextUp").hidden = false;
+    $("nextUp").innerHTML = '<span class="tag">' + (진행 ? "지금 입장" : "다음 설명회") + '</span>'
+      + '<span><b>' + esc(날(다음.s.date + "T12:00:00+09:00")) + ' ' + esc(다음.s.time) + '</b> · '
+      + esc(이름[다음.s.lv]) + ' 학부모 대상 ' + 회 + '회차</span>';
+  }
+
   /* ── 히어로 버튼 ── */
   var cta = "";
+  if (신청 === "마감" && !모두끝)
+    cta += '<a class="btn yel" href="#join">입장 안내<span class="ms">videocam</span></a>';
   if (신청 === "접수중" || 신청 === "대기")
     cta += '<a class="btn yel" href="#apply">참가 신청<span class="ms">arrow_downward</span></a>';
   if (조사 === "열림")
-    cta += '<a class="btn ' + (신청 === "접수중" ? "ghost" : "yel") + '" href="#survey">만족도 조사<span class="ms">rate_review</span></a>';
+    cta += '<a class="btn ' + (신청 === "접수중" || (신청 === "마감" && !모두끝) ? "ghost" : "yel") + '" href="#survey">만족도 조사<span class="ms">rate_review</span></a>';
   cta += '<a class="btn ghost" href="#schedule">학교급별 일정</a>';
   $("heroCta").innerHTML = cta;
 
