@@ -256,6 +256,14 @@ footer strong{color:#fff;font-weight:600;display:block;margin-bottom:6px;font-si
 @media(max-width:400px){.facts{grid-template-columns:1fr}.fact{border-right:0!important;border-bottom:1px solid rgba(255,255,255,.1)!important}.fact:last-child{border-bottom:0!important}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto}}
 :focus-visible{outline:3px solid var(--yel);outline-offset:3px;border-radius:4px}
+/* 운영자 전용 상자 (#host) */
+.hostbox{position:fixed;right:16px;bottom:16px;z-index:80;background:#fff;color:var(--ink);
+  border:2px solid var(--navy);border-radius:12px;box-shadow:0 10px 30px -10px rgba(0,0,0,.45);
+  padding:14px 16px;width:min(300px,calc(100vw - 32px));font-size:15px}
+.hostbox b{display:block;font-size:13px;color:var(--muted);margin-bottom:8px}
+.hostbox a{display:flex;align-items:center;gap:6px;font-weight:700;color:var(--blue-dk);text-decoration:none;padding:6px 0}
+.hostbox a:hover{text-decoration:underline}
+.hostbox button{position:absolute;top:6px;right:8px;border:0;background:none;font-size:18px;cursor:pointer;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -425,6 +433,11 @@ const ZOOM = {
   url: "https://zoom.us/j/3343517622",   // 입장 버튼 링크
   id:  "334 351 7622",
   pw:  "2026"
+};
+
+/* 운영자 전용 — 사이트 주소 뒤에 #host 를 붙였을 때만 보입니다 (화면·메뉴에는 나오지 않음) */
+const HOST = {
+  slides: "https://docs.google.com/presentation/d/1gatCFJz5OQqEQOwLP8wFr1KtvYmZM2MPXtooVpx-eEo/edit?usp=sharing"
 };
 
 const SURVEY = {
@@ -607,6 +620,23 @@ if (document.fonts && document.fonts.load) {
     box.classList.remove("ping"); void box.offsetWidth; box.classList.add("ping");
   }
   window.addEventListener("hashchange", ping);
+
+  /* 운영자 전용: #host 로 들어왔을 때만 슬라이드 바로가기 */
+  function host(){
+    var old = document.getElementById("hostBox");
+    if (location.hash !== "#host") { if (old) old.remove(); return; }
+    if (old || !HOST.slides) return;
+    var d = document.createElement("div");
+    d.className = "hostbox"; d.id = "hostBox";
+    d.innerHTML = '<button type="button" aria-label="닫기">×</button><b>운영자 전용</b>'
+      + '<a href="' + esc(HOST.slides) + '" target="_blank" rel="noopener">▶ Zoom 시작 화면 슬라이드</a>'
+      + '<a href="' + esc(ZOOM.url) + '" target="_blank" rel="noopener">▶ Zoom 회의실 열기</a>'
+      + '<a href="' + esc(SURVEY.url || "#survey") + '" target="_blank" rel="noopener">▶ 만족도 조사 폼</a>';
+    d.querySelector("button").onclick = function(){ history.replaceState(null, "", location.pathname + location.search); d.remove(); };
+    document.body.appendChild(d);
+  }
+  window.addEventListener("hashchange", host);
+  host();
   window.addEventListener("load", function(){ setTimeout(ping, 300); });
 })();
 </script>
